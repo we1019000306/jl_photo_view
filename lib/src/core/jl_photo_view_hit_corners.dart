@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 
 import 'package:jl_photo_view/src/controller/jl_photo_view_controller_delegate.dart'
-    show PhotoViewControllerDelegate;
+    show JLPhotoViewControllerDelegate;
 
-mixin HitCornersDetector on PhotoViewControllerDelegate {
+mixin HitCornersDetector on JLPhotoViewControllerDelegate {
   HitCorners _hitCornersX() {
     final double childWidth = scaleBoundaries.childSize.width * scale;
     final double screenWidth = scaleBoundaries.outerSize.width;

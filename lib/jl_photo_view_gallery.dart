@@ -5,11 +5,11 @@ import 'package:flutter/widgets.dart';
 import 'jl_photo_view.dart'
     show
         LoadingBuilder,
-        PhotoView,
-        PhotoViewImageTapDownCallback,
-        PhotoViewImageTapUpCallback,
-        PhotoViewImageLongPressCallback,
-        PhotoViewImageScaleEndCallback,
+        JLPhotoView,
+        JLPhotoViewImageTapDownCallback,
+        JLPhotoViewImageTapUpCallback,
+        JLPhotoViewImageLongPressCallback,
+        JLPhotoViewImageScaleEndCallback,
         ScaleStateCycle;
 
 import 'src/controller/jl_photo_view_controller.dart';
@@ -18,36 +18,36 @@ import 'src/core/jl_photo_view_gesture_detector.dart';
 import 'src/jl_photo_view_scale_state.dart';
 import 'src/utils/jl_photo_view_hero_attributes.dart';
 
-/// A type definition for a [Function] that receives a index after a page change in [PhotoViewGallery]
-typedef PhotoViewGalleryPageChangedCallback = void Function(int index);
+/// A type definition for a [Function] that receives a index after a page change in [JLPhotoViewGallery]
+typedef JLPhotoViewGalleryPageChangedCallback = void Function(int index);
 
-/// A type definition for a [Function] that defines a page in [PhotoViewGallery.build]
-typedef PhotoViewGalleryBuilder = PhotoViewGalleryPageOptions Function(
+/// A type definition for a [Function] that defines a page in [JLPhotoViewGallery.build]
+typedef JLPhotoViewGalleryBuilder = JLPhotoViewGalleryPageOptions Function(
     BuildContext context, int index);
 
-/// A [StatefulWidget] that shows multiple [PhotoView] widgets in a [PageView]
+/// A [StatefulWidget] that shows multiple [JLPhotoView] widgets in a [PageView]
 ///
-/// Some of [PhotoView] constructor options are passed direct to [PhotoViewGallery] constructor. Those options will affect the gallery in a whole.
+/// Some of [JLPhotoView] constructor options are passed direct to [JLPhotoViewGallery] constructor. Those options will affect the gallery in a whole.
 ///
-/// Some of the options may be defined to each image individually, such as `initialScale` or `heroAttributes`. Those must be passed via each [PhotoViewGalleryPageOptions].
+/// Some of the options may be defined to each image individually, such as `initialScale` or `heroAttributes`. Those must be passed via each [JLPhotoViewGalleryPageOptions].
 ///
 /// Example of usage as a list of options:
 /// ```
-/// PhotoViewGallery(
-///   pageOptions: <PhotoViewGalleryPageOptions>[
-///     PhotoViewGalleryPageOptions(
+/// JLPhotoViewGallery(
+///   pageOptions: <JLPhotoViewGalleryPageOptions>[
+///     JLPhotoViewGalleryPageOptions(
 ///       imageProvider: AssetImage("assets/gallery1.jpg"),
 ///       heroAttributes: const HeroAttributes(tag: "tag1"),
 ///     ),
-///     PhotoViewGalleryPageOptions(
+///     JLPhotoViewGalleryPageOptions(
 ///       imageProvider: AssetImage("assets/gallery2.jpg"),
 ///       heroAttributes: const HeroAttributes(tag: "tag2"),
-///       maxScale: PhotoViewComputedScale.contained * 0.3
+///       maxScale: JLPhotoViewComputedScale.contained * 0.3
 ///     ),
-///     PhotoViewGalleryPageOptions(
+///     JLPhotoViewGalleryPageOptions(
 ///       imageProvider: AssetImage("assets/gallery3.jpg"),
-///       minScale: PhotoViewComputedScale.contained * 0.8,
-///       maxScale: PhotoViewComputedScale.covered * 1.1,
+///       minScale: JLPhotoViewComputedScale.contained * 0.8,
+///       maxScale: JLPhotoViewComputedScale.covered * 1.1,
 ///       heroAttributes: const HeroAttributes(tag: "tag3"),
 ///     ),
 ///   ],
@@ -71,14 +71,14 @@ typedef PhotoViewGalleryBuilder = PhotoViewGalleryPageOptions Function(
 ///
 /// Example of usage with builder pattern:
 /// ```
-/// PhotoViewGallery.builder(
+/// JLPhotoViewGallery.builder(
 ///   scrollPhysics: const BouncingScrollPhysics(),
 ///   builder: (BuildContext context, int index) {
-///     return PhotoViewGalleryPageOptions(
+///     return JLPhotoViewGalleryPageOptions(
 ///       imageProvider: AssetImage(widget.galleryItems[index].image),
-///       initialScale: PhotoViewComputedScale.contained * 0.8,
-///       minScale: PhotoViewComputedScale.contained * 0.8,
-///       maxScale: PhotoViewComputedScale.covered * 1.1,
+///       initialScale: JLPhotoViewComputedScale.contained * 0.8,
+///       minScale: JLPhotoViewComputedScale.contained * 0.8,
+///       maxScale: JLPhotoViewComputedScale.covered * 1.1,
 ///       heroAttributes: HeroAttributes(tag: galleryItems[index].id),
 ///     );
 ///   },
@@ -100,9 +100,9 @@ typedef PhotoViewGalleryBuilder = PhotoViewGalleryPageOptions Function(
 ///   onPageChanged: onPageChanged,
 /// )
 /// ```
-class PhotoViewGallery extends StatefulWidget {
-  /// Construct a gallery with static items through a list of [PhotoViewGalleryPageOptions].
-  const PhotoViewGallery({
+class JLPhotoViewGallery extends StatefulWidget {
+  /// Construct a gallery with static items through a list of [JLPhotoViewGalleryPageOptions].
+  const JLPhotoViewGallery({
     Key? key,
     required this.pageOptions,
     this.loadingBuilder,
@@ -124,8 +124,8 @@ class PhotoViewGallery extends StatefulWidget {
 
   /// Construct a gallery with dynamic items.
   ///
-  /// The builder must return a [PhotoViewGalleryPageOptions].
-  const PhotoViewGallery.builder({
+  /// The builder must return a [JLPhotoViewGalleryPageOptions].
+  const JLPhotoViewGallery.builder({
     Key? key,
     required this.itemCount,
     required this.builder,
@@ -148,45 +148,45 @@ class PhotoViewGallery extends StatefulWidget {
         super(key: key);
 
   /// A list of options to describe the items in the gallery
-  final List<PhotoViewGalleryPageOptions>? pageOptions;
+  final List<JLPhotoViewGalleryPageOptions>? pageOptions;
 
-  /// The count of items in the gallery, only used when constructed via [PhotoViewGallery.builder]
+  /// The count of items in the gallery, only used when constructed via [JLPhotoViewGallery.builder]
   final int? itemCount;
 
-  /// Called to build items for the gallery when using [PhotoViewGallery.builder]
-  final PhotoViewGalleryBuilder? builder;
+  /// Called to build items for the gallery when using [JLPhotoViewGallery.builder]
+  final JLPhotoViewGalleryBuilder? builder;
 
   /// [ScrollPhysics] for the internal [PageView]
   final ScrollPhysics? scrollPhysics;
 
-  /// Mirror to [PhotoView.loadingBuilder]
+  /// Mirror to [JLPhotoView.loadingBuilder]
   final LoadingBuilder? loadingBuilder;
 
-  /// Mirror to [PhotoView.backgroundDecoration]
+  /// Mirror to [JLPhotoView.backgroundDecoration]
   final BoxDecoration? backgroundDecoration;
 
-  /// Mirror to [PhotoView.wantKeepAlive]
+  /// Mirror to [JLPhotoView.wantKeepAlive]
   final bool wantKeepAlive;
 
-  /// Mirror to [PhotoView.gaplessPlayback]
+  /// Mirror to [JLPhotoView.gaplessPlayback]
   final bool gaplessPlayback;
 
   /// Mirror to [PageView.reverse]
   final bool reverse;
 
-  /// An object that controls the [PageView] inside [PhotoViewGallery]
+  /// An object that controls the [PageView] inside [JLPhotoViewGallery]
   final PageController? pageController;
 
   /// An callback to be called on a page change
-  final PhotoViewGalleryPageChangedCallback? onPageChanged;
+  final JLPhotoViewGalleryPageChangedCallback? onPageChanged;
 
-  /// Mirror to [PhotoView.scaleStateChangedCallback]
-  final ValueChanged<PhotoViewScaleState>? scaleStateChangedCallback;
+  /// Mirror to [JLPhotoView.scaleStateChangedCallback]
+  final ValueChanged<JLPhotoViewScaleState>? scaleStateChangedCallback;
 
-  /// Mirror to [PhotoView.enableRotation]
+  /// Mirror to [JLPhotoView.enableRotation]
   final bool enableRotation;
 
-  /// Mirror to [PhotoView.customSize]
+  /// Mirror to [JLPhotoView.customSize]
   final Size? customSize;
 
   /// The axis along which the [PageView] scrolls. Mirror to [PageView.scrollDirection]
@@ -199,15 +199,15 @@ class PhotoViewGallery extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _PhotoViewGalleryState();
+    return _JLPhotoViewGalleryState();
   }
 }
 
-class _PhotoViewGalleryState extends State<PhotoViewGallery> {
+class _JLPhotoViewGalleryState extends State<JLPhotoViewGallery> {
   late final PageController _controller =
       widget.pageController ?? PageController();
 
-  void scaleStateChangedCallback(PhotoViewScaleState scaleState) {
+  void scaleStateChangedCallback(JLPhotoViewScaleState scaleState) {
     if (widget.scaleStateChangedCallback != null) {
       widget.scaleStateChangedCallback!(scaleState);
     }
@@ -227,7 +227,7 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
   @override
   Widget build(BuildContext context) {
     // Enable corner hit test
-    return PhotoViewGestureDetectorScope(
+    return JLPhotoViewGestureDetectorScope(
       axis: widget.scrollDirection,
       child: PageView.builder(
         reverse: widget.reverse,
@@ -246,8 +246,8 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
     final pageOption = _buildPageOption(context, index);
     final isCustomChild = pageOption.child != null;
 
-    final PhotoView photoView = isCustomChild
-        ? PhotoView.customChild(
+    final JLPhotoView photoView = isCustomChild
+        ? JLPhotoView.customChild(
             key: ObjectKey(index),
             child: pageOption.child,
             childSize: pageOption.childSize,
@@ -273,7 +273,7 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
             basePosition: pageOption.basePosition,
             disableGestures: pageOption.disableGestures,
           )
-        : PhotoView(
+        : JLPhotoView(
             key: ObjectKey(index),
             imageProvider: pageOption.imageProvider,
             loadingBuilder: widget.loadingBuilder,
@@ -307,7 +307,7 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
     );
   }
 
-  PhotoViewGalleryPageOptions _buildPageOption(
+  JLPhotoViewGalleryPageOptions _buildPageOption(
       BuildContext context, int index) {
     if (widget._isBuilder) {
       return widget.builder!(context, index);
@@ -316,12 +316,12 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
   }
 }
 
-/// A helper class that wraps individual options of a page in [PhotoViewGallery]
+/// A helper class that wraps individual options of a page in [JLPhotoViewGallery]
 ///
-/// The [maxScale], [minScale] and [initialScale] options may be [double] or a [PhotoViewComputedScale] constant
+/// The [maxScale], [minScale] and [initialScale] options may be [double] or a [JLPhotoViewComputedScale] constant
 ///
-class PhotoViewGalleryPageOptions {
-  PhotoViewGalleryPageOptions({
+class JLPhotoViewGalleryPageOptions {
+  JLPhotoViewGalleryPageOptions({
     Key? key,
     required this.imageProvider,
     this.heroAttributes,
@@ -345,7 +345,7 @@ class PhotoViewGalleryPageOptions {
         childSize = null,
         assert(imageProvider != null);
 
-  PhotoViewGalleryPageOptions.customChild({
+  JLPhotoViewGalleryPageOptions.customChild({
     required this.child,
     this.childSize,
     this.heroAttributes,
@@ -367,63 +367,63 @@ class PhotoViewGalleryPageOptions {
   })  : errorBuilder = null,
         imageProvider = null;
 
-  /// Mirror to [PhotoView.imageProvider]
+  /// Mirror to [JLPhotoView.imageProvider]
   final ImageProvider? imageProvider;
 
-  /// Mirror to [PhotoView.heroAttributes]
-  final PhotoViewHeroAttributes? heroAttributes;
+  /// Mirror to [JLPhotoView.heroAttributes]
+  final JLPhotoViewHeroAttributes? heroAttributes;
 
-  /// Mirror to [PhotoView.minScale]
+  /// Mirror to [JLPhotoView.minScale]
   final dynamic minScale;
 
-  /// Mirror to [PhotoView.maxScale]
+  /// Mirror to [JLPhotoView.maxScale]
   final dynamic maxScale;
 
-  /// Mirror to [PhotoView.initialScale]
+  /// Mirror to [JLPhotoView.initialScale]
   final dynamic initialScale;
 
-  /// Mirror to [PhotoView.controller]
-  final PhotoViewController? controller;
+  /// Mirror to [JLPhotoView.controller]
+  final JLPhotoViewController? controller;
 
-  /// Mirror to [PhotoView.scaleStateController]
-  final PhotoViewScaleStateController? scaleStateController;
+  /// Mirror to [JLPhotoView.scaleStateController]
+  final JLPhotoViewScaleStateController? scaleStateController;
 
-  /// Mirror to [PhotoView.basePosition]
+  /// Mirror to [JLPhotoView.basePosition]
   final Alignment? basePosition;
 
-  /// Mirror to [PhotoView.child]
+  /// Mirror to [JLPhotoView.child]
   final Widget? child;
 
-  /// Mirror to [PhotoView.childSize]
+  /// Mirror to [JLPhotoView.childSize]
   final Size? childSize;
 
-  /// Mirror to [PhotoView.scaleStateCycle]
+  /// Mirror to [JLPhotoView.scaleStateCycle]
   final ScaleStateCycle? scaleStateCycle;
 
-  /// Mirror to [PhotoView.onTapUp]
-  final PhotoViewImageTapUpCallback? onTapUp;
+  /// Mirror to [JLPhotoView.onTapUp]
+  final JLPhotoViewImageTapUpCallback? onTapUp;
 
-  /// Mirror to [PhotoView.onTapDown]
-  final PhotoViewImageTapDownCallback? onTapDown;
+  /// Mirror to [JLPhotoView.onTapDown]
+  final JLPhotoViewImageTapDownCallback? onTapDown;
 
-  /// Mirror to [PhotoView.onLongPress]
-  final PhotoViewImageLongPressCallback? onLongPress;
+  /// Mirror to [JLPhotoView.onLongPress]
+  final JLPhotoViewImageLongPressCallback? onLongPress;
 
-  /// Mirror to [PhotoView.onScaleEnd]
-  final PhotoViewImageScaleEndCallback? onScaleEnd;
+  /// Mirror to [JLPhotoView.onScaleEnd]
+  final JLPhotoViewImageScaleEndCallback? onScaleEnd;
 
-  /// Mirror to [PhotoView.gestureDetectorBehavior]
+  /// Mirror to [JLPhotoView.gestureDetectorBehavior]
   final HitTestBehavior? gestureDetectorBehavior;
 
-  /// Mirror to [PhotoView.tightMode]
+  /// Mirror to [JLPhotoView.tightMode]
   final bool? tightMode;
 
-  /// Mirror to [PhotoView.disableGestures]
+  /// Mirror to [JLPhotoView.disableGestures]
   final bool? disableGestures;
 
   /// Quality levels for image filters.
   final FilterQuality? filterQuality;
 
-  /// Mirror to [PhotoView.errorBuilder]
+  /// Mirror to [JLPhotoView.errorBuilder]
   final ImageErrorWidgetBuilder? errorBuilder;
 }

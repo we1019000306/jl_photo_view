@@ -40,20 +40,20 @@ class ImageWrapper extends StatefulWidget {
   final ImageErrorWidgetBuilder? errorBuilder;
   final BoxDecoration backgroundDecoration;
   final bool gaplessPlayback;
-  final PhotoViewHeroAttributes? heroAttributes;
-  final ValueChanged<PhotoViewScaleState>? scaleStateChangedCallback;
+  final JLPhotoViewHeroAttributes? heroAttributes;
+  final ValueChanged<JLPhotoViewScaleState>? scaleStateChangedCallback;
   final bool enableRotation;
   final dynamic maxScale;
   final dynamic minScale;
   final dynamic initialScale;
-  final PhotoViewControllerBase controller;
-  final PhotoViewScaleStateController scaleStateController;
+  final JLPhotoViewControllerBase controller;
+  final JLPhotoViewScaleStateController scaleStateController;
   final Alignment? basePosition;
   final ScaleStateCycle? scaleStateCycle;
-  final PhotoViewImageTapUpCallback? onTapUp;
-  final PhotoViewImageTapDownCallback? onTapDown;
-  final PhotoViewImageLongPressCallback? onLongPress;
-  final PhotoViewImageScaleEndCallback? onScaleEnd;
+  final JLPhotoViewImageTapUpCallback? onTapUp;
+  final JLPhotoViewImageTapDownCallback? onTapDown;
+  final JLPhotoViewImageLongPressCallback? onLongPress;
+  final JLPhotoViewImageScaleEndCallback? onScaleEnd;
   final Size outerSize;
   final HitTestBehavior? gestureDetectorBehavior;
   final bool? tightMode;
@@ -176,12 +176,12 @@ class _ImageWrapperState extends State<ImageWrapper> {
     final scaleBoundaries = ScaleBoundaries(
       widget.minScale ?? 0.0,
       widget.maxScale ?? double.infinity,
-      widget.initialScale ?? PhotoViewComputedScale.contained,
+      widget.initialScale ?? JLPhotoViewComputedScale.contained,
       widget.outerSize,
       _imageSize!,
     );
 
-    return PhotoViewCore(
+    return JLPhotoViewCore(
       imageProvider: widget.imageProvider,
       backgroundDecoration: widget.backgroundDecoration,
       gaplessPlayback: widget.gaplessPlayback,
@@ -209,7 +209,7 @@ class _ImageWrapperState extends State<ImageWrapper> {
       return widget.loadingBuilder!(context, _loadingProgress);
     }
 
-    return PhotoViewDefaultLoading(
+    return JLPhotoViewDefaultLoading(
       event: _loadingProgress,
     );
   }
@@ -220,7 +220,7 @@ class _ImageWrapperState extends State<ImageWrapper> {
     if (widget.errorBuilder != null) {
       return widget.errorBuilder!(context, _lastException!, _lastStack);
     }
-    return PhotoViewDefaultError(
+    return JLPhotoViewDefaultError(
       decoration: widget.backgroundDecoration,
     );
   }
@@ -257,12 +257,12 @@ class CustomChildWrapper extends StatelessWidget {
   final Widget? child;
   final Size? childSize;
   final Decoration backgroundDecoration;
-  final PhotoViewHeroAttributes? heroAttributes;
-  final ValueChanged<PhotoViewScaleState>? scaleStateChangedCallback;
+  final JLPhotoViewHeroAttributes? heroAttributes;
+  final ValueChanged<JLPhotoViewScaleState>? scaleStateChangedCallback;
   final bool enableRotation;
 
-  final PhotoViewControllerBase controller;
-  final PhotoViewScaleStateController scaleStateController;
+  final JLPhotoViewControllerBase controller;
+  final JLPhotoViewScaleStateController scaleStateController;
 
   final dynamic maxScale;
   final dynamic minScale;
@@ -270,10 +270,10 @@ class CustomChildWrapper extends StatelessWidget {
 
   final Alignment? basePosition;
   final ScaleStateCycle? scaleStateCycle;
-  final PhotoViewImageTapUpCallback? onTapUp;
-  final PhotoViewImageTapDownCallback? onTapDown;
-  final PhotoViewImageLongPressCallback? onLongPress;
-  final PhotoViewImageScaleEndCallback? onScaleEnd;
+  final JLPhotoViewImageTapUpCallback? onTapUp;
+  final JLPhotoViewImageTapDownCallback? onTapDown;
+  final JLPhotoViewImageLongPressCallback? onLongPress;
+  final JLPhotoViewImageScaleEndCallback? onScaleEnd;
   final Size outerSize;
   final HitTestBehavior? gestureDetectorBehavior;
   final bool? tightMode;
@@ -286,12 +286,12 @@ class CustomChildWrapper extends StatelessWidget {
     final scaleBoundaries = ScaleBoundaries(
       minScale ?? 0.0,
       maxScale ?? double.infinity,
-      initialScale ?? PhotoViewComputedScale.contained,
+      initialScale ?? JLPhotoViewComputedScale.contained,
       outerSize,
       childSize ?? outerSize,
     );
 
-    return PhotoViewCore.customChild(
+    return JLPhotoViewCore.customChild(
       customChild: child,
       backgroundDecoration: backgroundDecoration,
       enableRotation: enableRotation,

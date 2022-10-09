@@ -2,12 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jl_photo_view/jl_photo_view.dart'
     show
-        PhotoViewScaleState,
-        PhotoViewHeroAttributes,
-        PhotoViewImageTapDownCallback,
-        PhotoViewImageTapUpCallback,
-        PhotoViewImageLongPressCallback,
-        PhotoViewImageScaleEndCallback,
+        JLPhotoViewScaleState,
+        JLPhotoViewHeroAttributes,
+        JLPhotoViewImageTapDownCallback,
+        JLPhotoViewImageTapUpCallback,
+        JLPhotoViewImageLongPressCallback,
+        JLPhotoViewImageScaleEndCallback,
         ScaleStateCycle;
 import 'package:jl_photo_view/src/controller/jl_photo_view_controller.dart';
 import 'package:jl_photo_view/src/controller/jl_photo_view_controller_delegate.dart';
@@ -21,9 +21,9 @@ const _defaultDecoration = const BoxDecoration(
 );
 
 /// Internal widget in which controls all animations lifecycle, core responses
-/// to user gestures, updates to  the controller state and mounts the entire PhotoView Layout
-class PhotoViewCore extends StatefulWidget {
-  const PhotoViewCore({
+/// to user gestures, updates to  the controller state and mounts the entire JLPhotoView Layout
+class JLPhotoViewCore extends StatefulWidget {
+  const JLPhotoViewCore({
     Key? key,
     required this.imageProvider,
     required this.backgroundDecoration,
@@ -47,7 +47,7 @@ class PhotoViewCore extends StatefulWidget {
   })  : customChild = null,
         super(key: key);
 
-  const PhotoViewCore.customChild({
+  const JLPhotoViewCore.customChild({
     Key? key,
     required this.customChild,
     required this.backgroundDecoration,
@@ -75,20 +75,20 @@ class PhotoViewCore extends StatefulWidget {
   final Decoration? backgroundDecoration;
   final ImageProvider? imageProvider;
   final bool? gaplessPlayback;
-  final PhotoViewHeroAttributes? heroAttributes;
+  final JLPhotoViewHeroAttributes? heroAttributes;
   final bool enableRotation;
   final Widget? customChild;
 
-  final PhotoViewControllerBase controller;
-  final PhotoViewScaleStateController scaleStateController;
+  final JLPhotoViewControllerBase controller;
+  final JLPhotoViewScaleStateController scaleStateController;
   final ScaleBoundaries scaleBoundaries;
   final ScaleStateCycle scaleStateCycle;
   final Alignment basePosition;
 
-  final PhotoViewImageTapUpCallback? onTapUp;
-  final PhotoViewImageTapDownCallback? onTapDown;
-  final PhotoViewImageLongPressCallback? onLongPress;
-  final PhotoViewImageScaleEndCallback? onScaleEnd;
+  final JLPhotoViewImageTapUpCallback? onTapUp;
+  final JLPhotoViewImageTapDownCallback? onTapDown;
+  final JLPhotoViewImageLongPressCallback? onLongPress;
+  final JLPhotoViewImageScaleEndCallback? onScaleEnd;
 
   final HitTestBehavior? gestureDetectorBehavior;
   final bool tightMode;
@@ -99,16 +99,16 @@ class PhotoViewCore extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return PhotoViewCoreState();
+    return JLPhotoViewCoreState();
   }
 
   bool get hasCustomChild => customChild != null;
 }
 
-class PhotoViewCoreState extends State<PhotoViewCore>
+class JLPhotoViewCoreState extends State<JLPhotoViewCore>
     with
         TickerProviderStateMixin,
-        PhotoViewControllerDelegate,
+        JLPhotoViewControllerDelegate,
         HitCornersDetector {
   Offset? _normalizedPosition;
   double? _scaleBefore;
@@ -124,7 +124,7 @@ class PhotoViewCoreState extends State<PhotoViewCore>
       AnimationController(vsync: this)..addListener(handleRotationAnimation);
   Animation<double>? _rotationAnimation;
 
-  PhotoViewHeroAttributes? get heroAttributes => widget.heroAttributes;
+  JLPhotoViewHeroAttributes? get heroAttributes => widget.heroAttributes;
 
   late ScaleBoundaries cachedScaleBoundaries = widget.scaleBoundaries;
 
@@ -141,7 +141,7 @@ class PhotoViewCoreState extends State<PhotoViewCore>
   }
 
   void onLongPress() {
-    print('刘明远是张宇喆的好爸爸！！！！！');
+    print('onLongPress!!!!!!!!!!');
     //GestureDetector
   }
   
@@ -255,9 +255,9 @@ class PhotoViewCoreState extends State<PhotoViewCore>
 
   /// Check if scale is equal to initial after scale animation update
   void onAnimationStatusCompleted() {
-    if (scaleStateController.scaleState != PhotoViewScaleState.initial &&
+    if (scaleStateController.scaleState != JLPhotoViewScaleState.initial &&
         scale == scaleBoundaries.initialScale) {
-      scaleStateController.setInvisibly(PhotoViewScaleState.initial);
+      scaleStateController.setInvisibly(JLPhotoViewScaleState.initial);
     }
   }
 
@@ -312,10 +312,10 @@ class PhotoViewCoreState extends State<PhotoViewCore>
         initialData: controller.prevValue,
         builder: (
           BuildContext context,
-          AsyncSnapshot<PhotoViewControllerValue> snapshot,
+          AsyncSnapshot<JLPhotoViewControllerValue> snapshot,
         ) {
           if (snapshot.hasData) {
-            final PhotoViewControllerValue value = snapshot.data!;
+            final JLPhotoViewControllerValue value = snapshot.data!;
             final useImageScale = widget.filterQuality != FilterQuality.none;
 
             final computedScale = useImageScale ? 1.0 : scale;
@@ -352,7 +352,7 @@ class PhotoViewCoreState extends State<PhotoViewCore>
               return child;
             }
 
-            return PhotoViewGestureDetector(
+            return JLPhotoViewGestureDetector(
               child: child,
               onDoubleTap: nextScaleState,
               onScaleStart: onScaleStart,

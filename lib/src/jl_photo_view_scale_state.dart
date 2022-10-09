@@ -1,5 +1,5 @@
-/// A way to represent the step of the "doubletap gesture cycle" in which PhotoView is.
-enum PhotoViewScaleState {
+/// A way to represent the step of the "doubletap gesture cycle" in which JLPhotoView is.
+enum JLPhotoViewScaleState {
   initial,
   covering,
   originalSize,
@@ -7,8 +7,8 @@ enum PhotoViewScaleState {
   zoomedOut,
 }
 
-extension PhotoViewScaleStateIZoomingExtension on PhotoViewScaleState {
+extension JLPhotoViewScaleStateIZoomingExtension on JLPhotoViewScaleState {
   bool get isScaleStateZooming =>
-      this == PhotoViewScaleState.zoomedIn ||
-      this == PhotoViewScaleState.zoomedOut;
+      this == JLPhotoViewScaleState.zoomedIn ||
+      this == JLPhotoViewScaleState.zoomedOut;
 }

@@ -5,14 +5,14 @@ import '../utils/jl_ignorable_change_notifier.dart';
 
 /// The interface in which controllers will be implemented.
 ///
-/// It concerns storing the state ([PhotoViewControllerValue]) and streaming its updates.
-/// [PhotoViewImageWrapper] will respond to user gestures setting thew fields in the instance of a controller.
+/// It concerns storing the state ([JLPhotoViewControllerValue]) and streaming its updates.
+/// [JLPhotoViewImageWrapper] will respond to user gestures setting thew fields in the instance of a controller.
 ///
-/// Any instance of a controller must be disposed after unmount. So if you instantiate a [PhotoViewController] or your custom implementation, do not forget to dispose it when not using it anymore.
+/// Any instance of a controller must be disposed after unmount. So if you instantiate a [JLPhotoViewController] or your custom implementation, do not forget to dispose it when not using it anymore.
 ///
-/// The controller exposes value fields like [scale] or [rotationFocus]. Usually those fields will be only getters and setters serving as hooks to the internal [PhotoViewControllerValue].
+/// The controller exposes value fields like [scale] or [rotationFocus]. Usually those fields will be only getters and setters serving as hooks to the internal [JLPhotoViewControllerValue].
 ///
-/// The default implementation used by [PhotoView] is [PhotoViewController].
+/// The default implementation used by [JLPhotoView] is [JLPhotoViewController].
 ///
 /// This was created to allow customization (you can create your own controller class)
 ///
@@ -21,7 +21,7 @@ import '../utils/jl_ignorable_change_notifier.dart';
 ///
 /// As it is a controller, whoever instantiates it, should [dispose] it afterwards.
 ///
-abstract class PhotoViewControllerBase<T extends PhotoViewControllerValue> {
+abstract class JLPhotoViewControllerBase<T extends JLPhotoViewControllerValue> {
   /// The output for state/value updates. Usually a broadcast [Stream]
   Stream<T> get outputStateStream;
 
@@ -73,10 +73,10 @@ abstract class PhotoViewControllerBase<T extends PhotoViewControllerValue> {
   });
 }
 
-/// The state value stored and streamed by [PhotoViewController].
+/// The state value stored and streamed by [JLPhotoViewController].
 @immutable
-class PhotoViewControllerValue {
-  const PhotoViewControllerValue({
+class JLPhotoViewControllerValue {
+  const JLPhotoViewControllerValue({
     required this.position,
     required this.scale,
     required this.rotation,
@@ -91,7 +91,7 @@ class PhotoViewControllerValue {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PhotoViewControllerValue &&
+      other is JLPhotoViewControllerValue &&
           runtimeType == other.runtimeType &&
           position == other.position &&
           scale == other.scale &&
@@ -107,25 +107,25 @@ class PhotoViewControllerValue {
 
   @override
   String toString() {
-    return 'PhotoViewControllerValue{position: $position, scale: $scale, rotation: $rotation, rotationFocusPoint: $rotationFocusPoint}';
+    return 'JLPhotoViewControllerValue{position: $position, scale: $scale, rotation: $rotation, rotationFocusPoint: $rotationFocusPoint}';
   }
 }
 
-/// The default implementation of [PhotoViewControllerBase].
+/// The default implementation of [JLPhotoViewControllerBase].
 ///
 /// Containing a [ValueNotifier] it stores the state in the [value] field and streams
 /// updates via [outputStateStream].
 ///
-/// For details of fields and methods, check [PhotoViewControllerBase].
+/// For details of fields and methods, check [JLPhotoViewControllerBase].
 ///
-class PhotoViewController
-    implements PhotoViewControllerBase<PhotoViewControllerValue> {
-  PhotoViewController({
+class JLPhotoViewController
+    implements JLPhotoViewControllerBase<JLPhotoViewControllerValue> {
+  JLPhotoViewController({
     Offset initialPosition = Offset.zero,
     double initialRotation = 0.0,
     double? initialScale,
   })  : _valueNotifier = IgnorableValueNotifier(
-          PhotoViewControllerValue(
+          JLPhotoViewControllerValue(
             position: initialPosition,
             rotation: initialRotation,
             scale: initialScale,
@@ -137,21 +137,21 @@ class PhotoViewController
     prevValue = initial;
 
     _valueNotifier.addListener(_changeListener);
-    _outputCtrl = StreamController<PhotoViewControllerValue>.broadcast();
+    _outputCtrl = StreamController<JLPhotoViewControllerValue>.broadcast();
     _outputCtrl.sink.add(initial);
   }
 
-  final IgnorableValueNotifier<PhotoViewControllerValue> _valueNotifier;
+  final IgnorableValueNotifier<JLPhotoViewControllerValue> _valueNotifier;
 
-  late PhotoViewControllerValue initial;
+  late JLPhotoViewControllerValue initial;
 
-  late StreamController<PhotoViewControllerValue> _outputCtrl;
-
-  @override
-  Stream<PhotoViewControllerValue> get outputStateStream => _outputCtrl.stream;
+  late StreamController<JLPhotoViewControllerValue> _outputCtrl;
 
   @override
-  late PhotoViewControllerValue prevValue;
+  Stream<JLPhotoViewControllerValue> get outputStateStream => _outputCtrl.stream;
+
+  @override
+  late JLPhotoViewControllerValue prevValue;
 
   @override
   void reset() {
@@ -184,7 +184,7 @@ class PhotoViewController
       return;
     }
     prevValue = value;
-    value = PhotoViewControllerValue(
+    value = JLPhotoViewControllerValue(
       position: position,
       scale: scale,
       rotation: rotation,
@@ -201,7 +201,7 @@ class PhotoViewController
       return;
     }
     prevValue = value;
-    value = PhotoViewControllerValue(
+    value = JLPhotoViewControllerValue(
       position: position,
       scale: scale,
       rotation: rotation,
@@ -219,7 +219,7 @@ class PhotoViewController
     }
     prevValue = value;
     _valueNotifier.updateIgnoring(
-      PhotoViewControllerValue(
+      JLPhotoViewControllerValue(
         position: position,
         scale: scale,
         rotation: rotation,
@@ -234,7 +234,7 @@ class PhotoViewController
       return;
     }
     prevValue = value;
-    value = PhotoViewControllerValue(
+    value = JLPhotoViewControllerValue(
       position: position,
       scale: scale,
       rotation: rotation,
@@ -251,7 +251,7 @@ class PhotoViewController
       return;
     }
     prevValue = value;
-    value = PhotoViewControllerValue(
+    value = JLPhotoViewControllerValue(
       position: position,
       scale: scale,
       rotation: rotation,
@@ -270,7 +270,7 @@ class PhotoViewController
     Offset? rotationFocusPoint,
   }) {
     prevValue = value;
-    value = PhotoViewControllerValue(
+    value = JLPhotoViewControllerValue(
       position: position ?? value.position,
       scale: scale ?? value.scale,
       rotation: rotation ?? value.rotation,
@@ -279,10 +279,10 @@ class PhotoViewController
   }
 
   @override
-  PhotoViewControllerValue get value => _valueNotifier.value;
+  JLPhotoViewControllerValue get value => _valueNotifier.value;
 
   @override
-  set value(PhotoViewControllerValue newValue) {
+  set value(JLPhotoViewControllerValue newValue) {
     if (_valueNotifier.value == newValue) {
       return;
     }

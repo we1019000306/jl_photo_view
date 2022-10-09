@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 
 /// Data class that holds the attributes that are going to be passed to
-/// [PhotoViewImageWrapper]'s [Hero].
-class PhotoViewHeroAttributes {
-  const PhotoViewHeroAttributes({
+/// [JLPhotoViewImageWrapper]'s [Hero].
+class JLPhotoViewHeroAttributes {
+  const JLPhotoViewHeroAttributes({
     required this.tag,
     this.createRectTween,
     this.flightShuttleBuilder,

@@ -9,7 +9,7 @@ typedef ScaleStateListener = void Function(double prevScale, double nextScale);
 
 /// A controller responsible only by [scaleState].
 ///
-/// Scale state is a common value with represents the step in which the [PhotoView.scaleStateCycle] is.
+/// Scale state is a common value with represents the step in which the [JLPhotoView.scaleStateCycle] is.
 /// This cycle is triggered by the "doubleTap" gesture.
 ///
 /// Any change in its [scaleState] should animate the scale of image/content.
@@ -18,26 +18,26 @@ typedef ScaleStateListener = void Function(double prevScale, double nextScale);
 ///
 /// The updates should be done via [scaleState] setter and the updated listened via [outputScaleStateStream]
 ///
-class PhotoViewScaleStateController {
-  late final IgnorableValueNotifier<PhotoViewScaleState> _scaleStateNotifier =
-      IgnorableValueNotifier(PhotoViewScaleState.initial)
+class JLPhotoViewScaleStateController {
+  late final IgnorableValueNotifier<JLPhotoViewScaleState> _scaleStateNotifier =
+      IgnorableValueNotifier(JLPhotoViewScaleState.initial)
         ..addListener(_scaleStateChangeListener);
-  final StreamController<PhotoViewScaleState> _outputScaleStateCtrl =
-      StreamController<PhotoViewScaleState>.broadcast()
-        ..sink.add(PhotoViewScaleState.initial);
+  final StreamController<JLPhotoViewScaleState> _outputScaleStateCtrl =
+      StreamController<JLPhotoViewScaleState>.broadcast()
+        ..sink.add(JLPhotoViewScaleState.initial);
 
   /// The output for state/value updates
-  Stream<PhotoViewScaleState> get outputScaleStateStream =>
+  Stream<JLPhotoViewScaleState> get outputScaleStateStream =>
       _outputScaleStateCtrl.stream;
 
   /// The state value before the last change or the initial state if the state has not been changed.
-  PhotoViewScaleState prevScaleState = PhotoViewScaleState.initial;
+  JLPhotoViewScaleState prevScaleState = JLPhotoViewScaleState.initial;
 
   /// The actual state value
-  PhotoViewScaleState get scaleState => _scaleStateNotifier.value;
+  JLPhotoViewScaleState get scaleState => _scaleStateNotifier.value;
 
   /// Updates scaleState and notify all listeners (and the stream)
-  set scaleState(PhotoViewScaleState newValue) {
+  set scaleState(JLPhotoViewScaleState newValue) {
     if (_scaleStateNotifier.value == newValue) {
       return;
     }
@@ -51,13 +51,13 @@ class PhotoViewScaleStateController {
 
   /// Check if is `zoomedIn` & `zoomedOut`
   bool get isZooming =>
-      scaleState == PhotoViewScaleState.zoomedIn ||
-      scaleState == PhotoViewScaleState.zoomedOut;
+      scaleState == JLPhotoViewScaleState.zoomedIn ||
+      scaleState == JLPhotoViewScaleState.zoomedOut;
 
   /// Resets the state to the initial value;
   void reset() {
     prevScaleState = scaleState;
-    scaleState = PhotoViewScaleState.initial;
+    scaleState = JLPhotoViewScaleState.initial;
   }
 
   /// Closes streams and removes eventual listeners
@@ -68,7 +68,7 @@ class PhotoViewScaleStateController {
 
   /// Nevermind this method :D, look away
   /// Seriously: It is used to change scale state without trigging updates on the []
-  void setInvisibly(PhotoViewScaleState newValue) {
+  void setInvisibly(JLPhotoViewScaleState newValue) {
     if (_scaleStateNotifier.value == newValue) {
       return;
     }

@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 
 import 'jl_photo_view_hit_corners.dart';
 
-class PhotoViewGestureDetector extends StatelessWidget {
-  const PhotoViewGestureDetector({
+class JLPhotoViewGestureDetector extends StatelessWidget {
+  const JLPhotoViewGestureDetector({
     Key? key,
     this.hitDetector,
     this.onScaleStart,
@@ -34,7 +34,7 @@ class PhotoViewGestureDetector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scope = PhotoViewGestureDetectorScope.of(context);
+    final scope = JLPhotoViewGestureDetectorScope.of(context);
 
     final Axis? axis = scope?.axis;
 
@@ -72,11 +72,11 @@ class PhotoViewGestureDetector extends StatelessWidget {
       },
     );
 
-    gestures[PhotoViewGestureRecognizer] =
-        GestureRecognizerFactoryWithHandlers<PhotoViewGestureRecognizer>(
-      () => PhotoViewGestureRecognizer(
+    gestures[JLPhotoViewGestureRecognizer] =
+        GestureRecognizerFactoryWithHandlers<JLPhotoViewGestureRecognizer>(
+      () => JLPhotoViewGestureRecognizer(
           hitDetector: hitDetector, debugOwner: this, validateAxis: axis),
-      (PhotoViewGestureRecognizer instance) {
+      (JLPhotoViewGestureRecognizer instance) {
         instance
           ..onStart = onScaleStart
           ..onUpdate = onScaleUpdate
@@ -92,8 +92,8 @@ class PhotoViewGestureDetector extends StatelessWidget {
   }
 }
 
-class PhotoViewGestureRecognizer extends ScaleGestureRecognizer {
-  PhotoViewGestureRecognizer({
+class JLPhotoViewGestureRecognizer extends ScaleGestureRecognizer {
+  JLPhotoViewGestureRecognizer({
     this.hitDetector,
     Object? debugOwner,
     this.validateAxis,
@@ -169,39 +169,39 @@ class PhotoViewGestureRecognizer extends ScaleGestureRecognizer {
   }
 }
 
-/// An [InheritedWidget] responsible to give a axis aware scope to [PhotoViewGestureRecognizer].
+/// An [InheritedWidget] responsible to give a axis aware scope to [JLPhotoViewGestureRecognizer].
 ///
-/// When using this, PhotoView will test if the content zoomed has hit edge every time user pinches,
+/// When using this, JLPhotoView will test if the content zoomed has hit edge every time user pinches,
 /// if so, it will let parent gesture detectors win the gesture arena
 ///
-/// Useful when placing PhotoView inside a gesture sensitive context,
+/// Useful when placing JLPhotoView inside a gesture sensitive context,
 /// such as [PageView], [Dismissible], [BottomSheet].
 ///
 /// Usage example:
 /// ```
-/// PhotoViewGestureDetectorScope(
+/// JLPhotoViewGestureDetectorScope(
 ///   axis: Axis.vertical,
-///   child: PhotoView(
+///   child: JLPhotoView(
 ///     imageProvider: AssetImage("assets/pudim.jpg"),
 ///   ),
 /// );
 /// ```
-class PhotoViewGestureDetectorScope extends InheritedWidget {
-  PhotoViewGestureDetectorScope({
+class JLPhotoViewGestureDetectorScope extends InheritedWidget {
+  JLPhotoViewGestureDetectorScope({
     this.axis,
     required Widget child,
   }) : super(child: child);
 
-  static PhotoViewGestureDetectorScope? of(BuildContext context) {
-    final PhotoViewGestureDetectorScope? scope = context
-        .dependOnInheritedWidgetOfExactType<PhotoViewGestureDetectorScope>();
+  static JLPhotoViewGestureDetectorScope? of(BuildContext context) {
+    final JLPhotoViewGestureDetectorScope? scope = context
+        .dependOnInheritedWidgetOfExactType<JLPhotoViewGestureDetectorScope>();
     return scope;
   }
 
   final Axis? axis;
 
   @override
-  bool updateShouldNotify(PhotoViewGestureDetectorScope oldWidget) {
+  bool updateShouldNotify(JLPhotoViewGestureDetectorScope oldWidget) {
     return axis != oldWidget.axis;
   }
 }

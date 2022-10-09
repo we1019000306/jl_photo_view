@@ -14,7 +14,7 @@ import 'src/utils/jl_photo_view_hero_attributes.dart';
 export 'src/controller/jl_photo_view_controller.dart';
 export 'src/controller/jl_photo_view_scalestate_controller.dart';
 export 'src/core/jl_photo_view_gesture_detector.dart'
-    show PhotoViewGestureDetectorScope;
+    show JLPhotoViewGestureDetectorScope;
 export 'src/jl_photo_view_computed_scale.dart';
 export 'src/jl_photo_view_scale_state.dart';
 export 'src/utils/jl_photo_view_hero_attributes.dart';
@@ -24,7 +24,7 @@ export 'src/utils/jl_photo_view_hero_attributes.dart';
 /// Sample code to use within an image:
 ///
 /// ```
-/// PhotoView(
+/// JLPhotoView(
 ///  imageProvider: imageProvider,
 ///  loadingBuilder: (context, progress) => Center(
 ///            child: Container(
@@ -48,9 +48,9 @@ export 'src/utils/jl_photo_view_hero_attributes.dart';
 ///  scaleStateChangedCallback: this.onScaleStateChanged,
 ///  enableRotation: true,
 ///  controller:  controller,
-///  minScale: PhotoViewComputedScale.contained * 0.8,
-///  maxScale: PhotoViewComputedScale.covered * 1.8,
-///  initialScale: PhotoViewComputedScale.contained,
+///  minScale: JLPhotoViewComputedScale.contained * 0.8,
+///  maxScale: JLPhotoViewComputedScale.covered * 1.8,
+///  initialScale: JLPhotoViewComputedScale.contained,
 ///  basePosition: Alignment.center,
 ///  scaleStateCycle: scaleStateCycle
 /// );
@@ -59,7 +59,7 @@ export 'src/utils/jl_photo_view_hero_attributes.dart';
 /// You can customize to show an custom child instead of an image:
 ///
 /// ```
-/// PhotoView.customChild(
+/// JLPhotoView.customChild(
 ///  child: Container(
 ///    width: 220.0,
 ///    height: 250.0,
@@ -78,23 +78,23 @@ export 'src/utils/jl_photo_view_hero_attributes.dart';
 ///  scaleStateChangedCallback: this.onScaleStateChanged,
 ///  enableRotation: true,
 ///  controller:  controller,
-///  minScale: PhotoViewComputedScale.contained * 0.8,
-///  maxScale: PhotoViewComputedScale.covered * 1.8,
-///  initialScale: PhotoViewComputedScale.contained,
+///  minScale: JLPhotoViewComputedScale.contained * 0.8,
+///  maxScale: JLPhotoViewComputedScale.covered * 1.8,
+///  initialScale: JLPhotoViewComputedScale.contained,
 ///  basePosition: Alignment.center,
 ///  scaleStateCycle: scaleStateCycle
 /// );
 /// ```
-/// The [maxScale], [minScale] and [initialScale] options may be [double] or a [PhotoViewComputedScale] constant
+/// The [maxScale], [minScale] and [initialScale] options may be [double] or a [JLPhotoViewComputedScale] constant
 ///
 /// Sample using [maxScale], [minScale] and [initialScale]
 ///
 /// ```
-/// PhotoView(
+/// JLPhotoView(
 ///  imageProvider: imageProvider,
-///  minScale: PhotoViewComputedScale.contained * 0.8,
-///  maxScale: PhotoViewComputedScale.covered * 1.8,
-///  initialScale: PhotoViewComputedScale.contained * 1.1,
+///  minScale: JLPhotoViewComputedScale.contained * 0.8,
+///  maxScale: JLPhotoViewComputedScale.covered * 1.8,
+///  initialScale: JLPhotoViewComputedScale.contained * 1.1,
 /// );
 /// ```
 ///
@@ -122,7 +122,7 @@ export 'src/utils/jl_photo_view_hero_attributes.dart';
 ///   )
 /// // screen2
 /// ...
-/// child: PhotoView(
+/// child: JLPhotoView(
 ///   imageProvider: AssetImage("assets/large-image.jpg"),
 ///   heroAttributes: const HeroAttributes(tag: "someTag"),
 /// )
@@ -132,9 +132,9 @@ export 'src/utils/jl_photo_view_hero_attributes.dart';
 ///
 /// ## Controllers
 ///
-/// Controllers, when specified to PhotoView widget, enables the author(you) to listen for state updates through a `Stream` and change those values externally.
+/// Controllers, when specified to JLPhotoView widget, enables the author(you) to listen for state updates through a `Stream` and change those values externally.
 ///
-/// While [PhotoViewScaleStateController] is only responsible for the `scaleState`, [PhotoViewController] is responsible for all fields os [PhotoViewControllerValue].
+/// While [JLPhotoViewScaleStateController] is only responsible for the `scaleState`, [JLPhotoViewController] is responsible for all fields os [JLPhotoViewControllerValue].
 ///
 /// To use them, pass a instance of those items on [controller] or [scaleStateController];
 ///
@@ -145,13 +145,13 @@ export 'src/utils/jl_photo_view_hero_attributes.dart';
 /// ```
 /// class _ExampleWidgetState extends State<ExampleWidget> {
 ///
-///   PhotoViewController controller;
+///   JLPhotoViewController controller;
 ///   double scaleCopy;
 ///
 ///   @override
 ///   void initState() {
 ///     super.initState();
-///     controller = PhotoViewController()
+///     controller = JLPhotoViewController()
 ///       ..outputStateStream.listen(listener);
 ///   }
 ///
@@ -161,7 +161,7 @@ export 'src/utils/jl_photo_view_hero_attributes.dart';
 ///     super.dispose();
 ///   }
 ///
-///   void listener(PhotoViewControllerValue value){
+///   void listener(JLPhotoViewControllerValue value){
 ///     setState((){
 ///       scaleCopy = value.scale;
 ///     })
@@ -172,7 +172,7 @@ export 'src/utils/jl_photo_view_hero_attributes.dart';
 ///     return Stack(
 ///       children: <Widget>[
 ///         Positioned.fill(
-///             child: PhotoView(
+///             child: JLPhotoView(
 ///               imageProvider: AssetImage("assets/pudim.png"),
 ///               controller: controller,
 ///             );
@@ -188,12 +188,12 @@ export 'src/utils/jl_photo_view_hero_attributes.dart';
 /// ```
 /// class _ExampleWidgetState extends State<ExampleWidget> {
 ///
-///   PhotoViewScaleStateController scaleStateController;
+///   JLPhotoViewScaleStateController scaleStateController;
 ///
 ///   @override
 ///   void initState() {
 ///     super.initState();
-///     scaleStateController = PhotoViewScaleStateController();
+///     scaleStateController = JLPhotoViewScaleStateController();
 ///   }
 ///
 ///   @override
@@ -203,7 +203,7 @@ export 'src/utils/jl_photo_view_hero_attributes.dart';
 ///   }
 ///
 ///   void goBack(){
-///     scaleStateController.scaleState = PhotoViewScaleState.originalSize;
+///     scaleStateController.scaleState = JLPhotoViewScaleState.originalSize;
 ///   }
 ///
 ///   @override
@@ -211,7 +211,7 @@ export 'src/utils/jl_photo_view_hero_attributes.dart';
 ///     return Stack(
 ///       children: <Widget>[
 ///         Positioned.fill(
-///             child: PhotoView(
+///             child: JLPhotoView(
 ///               imageProvider: AssetImage("assets/pudim.png"),
 ///               scaleStateController: scaleStateController,
 ///             );
@@ -233,14 +233,14 @@ class Calculator {
   int addOne(int value) => value + 1;
 }
 
-class PhotoView extends StatefulWidget {
+class JLPhotoView extends StatefulWidget {
   /// Creates a widget that displays a zoomable image.
   ///
   /// To show an image from the network or from an asset bundle, use their respective
   /// image providers, ie: [AssetImage] or [NetworkImage]
   ///
   /// Internally, the image is rendered within an [Image] widget.
-  PhotoView({
+  JLPhotoView({
     Key? key,
     required this.imageProvider,
     this.loadingBuilder,
@@ -274,11 +274,11 @@ class PhotoView extends StatefulWidget {
 
   /// Creates a widget that displays a zoomable child.
   ///
-  /// It has been created to resemble [PhotoView] behavior within widgets that aren't an image, such as [Container], [Text] or a svg.
+  /// It has been created to resemble [JLPhotoView] behavior within widgets that aren't an image, such as [Container], [Text] or a svg.
   ///
   /// Instead of a [imageProvider], this constructor will receive a [child] and a [childSize].
   ///
-  PhotoView.customChild({
+  JLPhotoView.customChild({
     Key? key,
     required this.child,
     this.childSize,
@@ -314,7 +314,7 @@ class PhotoView extends StatefulWidget {
   /// is required
   final ImageProvider? imageProvider;
 
-  /// While [imageProvider] is not resolved, [loadingBuilder] is called by [PhotoView]
+  /// While [imageProvider] is not resolved, [loadingBuilder] is called by [JLPhotoView]
   /// into the screen, by default it is a centered [CircularProgressIndicator]
   final LoadingBuilder? loadingBuilder;
 
@@ -334,16 +334,16 @@ class PhotoView extends StatefulWidget {
   /// to `false`.
   final bool gaplessPlayback;
 
-  /// Attributes that are going to be passed to [PhotoViewCore]'s
+  /// Attributes that are going to be passed to [JLPhotoViewCore]'s
   /// [Hero]. Leave this property undefined if you don't want a hero animation.
-  final PhotoViewHeroAttributes? heroAttributes;
+  final JLPhotoViewHeroAttributes? heroAttributes;
 
-  /// Defines the size of the scaling base of the image inside [PhotoView],
+  /// Defines the size of the scaling base of the image inside [JLPhotoView],
   /// by default it is `MediaQuery.of(context).size`.
   final Size? customSize;
 
   /// A [Function] to be called whenever the scaleState changes, this happens when the user double taps the content ou start to pinch-in.
-  final ValueChanged<PhotoViewScaleState>? scaleStateChangedCallback;
+  final ValueChanged<JLPhotoViewScaleState>? scaleStateChangedCallback;
 
   /// A flag that enables the rotation gesture support
   final bool enableRotation;
@@ -351,50 +351,50 @@ class PhotoView extends StatefulWidget {
   /// The specified custom child to be shown instead of a image
   final Widget? child;
 
-  /// The size of the custom [child]. [PhotoView] uses this value to compute the relation between the child and the container's size to calculate the scale value.
+  /// The size of the custom [child]. [JLPhotoView] uses this value to compute the relation between the child and the container's size to calculate the scale value.
   final Size? childSize;
 
   /// Defines the maximum size in which the image will be allowed to assume, it
   /// is proportional to the original image size. Can be either a double (absolute value) or a
-  /// [PhotoViewComputedScale], that can be multiplied by a double
+  /// [JLPhotoViewComputedScale], that can be multiplied by a double
   final dynamic maxScale;
 
   /// Defines the minimum size in which the image will be allowed to assume, it
   /// is proportional to the original image size. Can be either a double (absolute value) or a
-  /// [PhotoViewComputedScale], that can be multiplied by a double
+  /// [JLPhotoViewComputedScale], that can be multiplied by a double
   final dynamic minScale;
 
   /// Defines the initial size in which the image will be assume in the mounting of the component, it
   /// is proportional to the original image size. Can be either a double (absolute value) or a
-  /// [PhotoViewComputedScale], that can be multiplied by a double
+  /// [JLPhotoViewComputedScale], that can be multiplied by a double
   final dynamic initialScale;
 
-  /// A way to control PhotoView transformation factors externally and listen to its updates
-  final PhotoViewControllerBase? controller;
+  /// A way to control JLPhotoView transformation factors externally and listen to its updates
+  final JLPhotoViewControllerBase? controller;
 
-  /// A way to control PhotoViewScaleState value externally and listen to its updates
-  final PhotoViewScaleStateController? scaleStateController;
+  /// A way to control JLPhotoViewScaleState value externally and listen to its updates
+  final JLPhotoViewScaleStateController? scaleStateController;
 
   /// The alignment of the scale origin in relation to the widget size. Default is [Alignment.center]
   final Alignment? basePosition;
 
-  /// Defines de next [PhotoViewScaleState] given the actual one. Default is [defaultScaleStateCycle]
+  /// Defines de next [JLPhotoViewScaleState] given the actual one. Default is [defaultScaleStateCycle]
   final ScaleStateCycle? scaleStateCycle;
 
   /// A pointer that will trigger a tap has stopped contacting the screen at a
   /// particular location.
-  final PhotoViewImageTapUpCallback? onTapUp;
+  final JLPhotoViewImageTapUpCallback? onTapUp;
 
   /// A pointer that might cause a tap has contacted the screen at a particular
   /// location.
-  final PhotoViewImageTapDownCallback? onTapDown;
+  final JLPhotoViewImageTapDownCallback? onTapDown;
 
   ///LongPressCallback
-  final PhotoViewImageLongPressCallback? onLongPress;
+  final JLPhotoViewImageLongPressCallback? onLongPress;
 
   /// A pointer that will trigger a scale has stopped contacting the screen at a
   /// particular location.
-  final PhotoViewImageScaleEndCallback? onScaleEnd;
+  final JLPhotoViewImageScaleEndCallback? onScaleEnd;
 
   /// [HitTestBehavior] to be passed to the internal gesture detector.
   final HitTestBehavior? gestureDetectorBehavior;
@@ -420,19 +420,19 @@ class PhotoView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _PhotoViewState();
+    return _JLPhotoViewState();
   }
 }
 
-class _PhotoViewState extends State<PhotoView>
+class _JLPhotoViewState extends State<JLPhotoView>
     with AutomaticKeepAliveClientMixin {
   // image retrieval
 
   // controller
   late bool _controlledController;
-  late PhotoViewControllerBase _controller;
+  late JLPhotoViewControllerBase _controller;
   late bool _controlledScaleStateController;
-  late PhotoViewScaleStateController _scaleStateController;
+  late JLPhotoViewScaleStateController _scaleStateController;
 
   @override
   void initState() {
@@ -440,7 +440,7 @@ class _PhotoViewState extends State<PhotoView>
 
     if (widget.controller == null) {
       _controlledController = true;
-      _controller = PhotoViewController();
+      _controller = JLPhotoViewController();
     } else {
       _controlledController = false;
       _controller = widget.controller!;
@@ -448,7 +448,7 @@ class _PhotoViewState extends State<PhotoView>
 
     if (widget.scaleStateController == null) {
       _controlledScaleStateController = true;
-      _scaleStateController = PhotoViewScaleStateController();
+      _scaleStateController = JLPhotoViewScaleStateController();
     } else {
       _controlledScaleStateController = false;
       _scaleStateController = widget.scaleStateController!;
@@ -458,11 +458,11 @@ class _PhotoViewState extends State<PhotoView>
   }
 
   @override
-  void didUpdateWidget(PhotoView oldWidget) {
+  void didUpdateWidget(JLPhotoView oldWidget) {
     if (widget.controller == null) {
       if (!_controlledController) {
         _controlledController = true;
-        _controller = PhotoViewController();
+        _controller = JLPhotoViewController();
       }
     } else {
       _controlledController = false;
@@ -472,7 +472,7 @@ class _PhotoViewState extends State<PhotoView>
     if (widget.scaleStateController == null) {
       if (!_controlledScaleStateController) {
         _controlledScaleStateController = true;
-        _scaleStateController = PhotoViewScaleStateController();
+        _scaleStateController = JLPhotoViewScaleStateController();
       }
     } else {
       _controlledScaleStateController = false;
@@ -492,7 +492,7 @@ class _PhotoViewState extends State<PhotoView>
     super.dispose();
   }
 
-  void scaleStateListener(PhotoViewScaleState scaleState) {
+  void scaleStateListener(JLPhotoViewScaleState scaleState) {
     if (widget.scaleStateChangedCallback != null) {
       widget.scaleStateChangedCallback!(_scaleStateController.scaleState);
     }
@@ -572,55 +572,55 @@ class _PhotoViewState extends State<PhotoView>
 }
 
 /// The default [ScaleStateCycle]
-PhotoViewScaleState defaultScaleStateCycle(PhotoViewScaleState actual) {
+JLPhotoViewScaleState defaultScaleStateCycle(JLPhotoViewScaleState actual) {
   switch (actual) {
-    case PhotoViewScaleState.initial:
-      return PhotoViewScaleState.covering;
-    case PhotoViewScaleState.covering:
-      return PhotoViewScaleState.originalSize;
-    case PhotoViewScaleState.originalSize:
-      return PhotoViewScaleState.initial;
-    case PhotoViewScaleState.zoomedIn:
-    case PhotoViewScaleState.zoomedOut:
-      return PhotoViewScaleState.initial;
+    case JLPhotoViewScaleState.initial:
+      return JLPhotoViewScaleState.covering;
+    case JLPhotoViewScaleState.covering:
+      return JLPhotoViewScaleState.originalSize;
+    case JLPhotoViewScaleState.originalSize:
+      return JLPhotoViewScaleState.initial;
+    case JLPhotoViewScaleState.zoomedIn:
+    case JLPhotoViewScaleState.zoomedOut:
+      return JLPhotoViewScaleState.initial;
     default:
-      return PhotoViewScaleState.initial;
+      return JLPhotoViewScaleState.initial;
   }
 }
 
-/// A type definition for a [Function] that receives the actual [PhotoViewScaleState] and returns the next one
+/// A type definition for a [Function] that receives the actual [JLPhotoViewScaleState] and returns the next one
 /// It is used internally to walk in the "doubletap gesture cycle".
-/// It is passed to [PhotoView.scaleStateCycle]
-typedef ScaleStateCycle = PhotoViewScaleState Function(
-    PhotoViewScaleState actual,
+/// It is passed to [JLPhotoView.scaleStateCycle]
+typedef ScaleStateCycle = JLPhotoViewScaleState Function(
+    JLPhotoViewScaleState actual,
     );
 
 /// A type definition for a callback when the user taps up the photoview region
-typedef PhotoViewImageTapUpCallback = Function(
+typedef JLPhotoViewImageTapUpCallback = Function(
     BuildContext context,
     TapUpDetails details,
-    PhotoViewControllerValue controllerValue,
+    JLPhotoViewControllerValue controllerValue,
     );
 
 /// A type definition for a callback when the user long press the photoview region
-typedef PhotoViewImageLongPressCallback = Function(
+typedef JLPhotoViewImageLongPressCallback = Function(
     BuildContext context,
     LongPressDownDetails details,
-    PhotoViewControllerValue controllerValue,
+    JLPhotoViewControllerValue controllerValue,
     );
 
 /// A type definition for a callback when the user taps down the photoview region
-typedef PhotoViewImageTapDownCallback = Function(
+typedef JLPhotoViewImageTapDownCallback = Function(
     BuildContext context,
     TapDownDetails details,
-    PhotoViewControllerValue controllerValue,
+    JLPhotoViewControllerValue controllerValue,
     );
 
 /// A type definition for a callback when a user finished scale
-typedef PhotoViewImageScaleEndCallback = Function(
+typedef JLPhotoViewImageScaleEndCallback = Function(
     BuildContext context,
     ScaleEndDetails details,
-    PhotoViewControllerValue controllerValue,
+    JLPhotoViewControllerValue controllerValue,
     );
 
 /// A type definition for a callback to show a widget while the image is loading, a [ImageChunkEvent] is passed to inform progress

@@ -4,22 +4,22 @@ import 'dart:ui' show Size;
 import 'package:jl_photo_view/src/jl_photo_view_computed_scale.dart';
 import 'package:jl_photo_view/src/jl_photo_view_scale_state.dart';
 
-/// Given a [PhotoViewScaleState], returns a scale value considering [scaleBoundaries].
+/// Given a [JLPhotoViewScaleState], returns a scale value considering [scaleBoundaries].
 double getScaleForScaleState(
-  PhotoViewScaleState scaleState,
+  JLPhotoViewScaleState scaleState,
   ScaleBoundaries scaleBoundaries,
 ) {
   switch (scaleState) {
-    case PhotoViewScaleState.initial:
-    case PhotoViewScaleState.zoomedIn:
-    case PhotoViewScaleState.zoomedOut:
+    case JLPhotoViewScaleState.initial:
+    case JLPhotoViewScaleState.zoomedIn:
+    case JLPhotoViewScaleState.zoomedOut:
       return _clampSize(scaleBoundaries.initialScale, scaleBoundaries);
-    case PhotoViewScaleState.covering:
+    case JLPhotoViewScaleState.covering:
       return _clampSize(
           _scaleForCovering(
               scaleBoundaries.outerSize, scaleBoundaries.childSize),
           scaleBoundaries);
-    case PhotoViewScaleState.originalSize:
+    case JLPhotoViewScaleState.originalSize:
       return _clampSize(1.0, scaleBoundaries);
     // Will never be reached
     default:
@@ -45,30 +45,30 @@ class ScaleBoundaries {
   final Size childSize;
 
   double get minScale {
-    assert(_minScale is double || _minScale is PhotoViewComputedScale);
-    if (_minScale == PhotoViewComputedScale.contained) {
+    assert(_minScale is double || _minScale is JLPhotoViewComputedScale);
+    if (_minScale == JLPhotoViewComputedScale.contained) {
       return _scaleForContained(outerSize, childSize) *
-          (_minScale as PhotoViewComputedScale).multiplier; // ignore: avoid_as
+          (_minScale as JLPhotoViewComputedScale).multiplier; // ignore: avoid_as
     }
-    if (_minScale == PhotoViewComputedScale.covered) {
+    if (_minScale == JLPhotoViewComputedScale.covered) {
       return _scaleForCovering(outerSize, childSize) *
-          (_minScale as PhotoViewComputedScale).multiplier; // ignore: avoid_as
+          (_minScale as JLPhotoViewComputedScale).multiplier; // ignore: avoid_as
     }
     assert(_minScale >= 0.0);
     return _minScale;
   }
 
   double get maxScale {
-    assert(_maxScale is double || _maxScale is PhotoViewComputedScale);
-    if (_maxScale == PhotoViewComputedScale.contained) {
+    assert(_maxScale is double || _maxScale is JLPhotoViewComputedScale);
+    if (_maxScale == JLPhotoViewComputedScale.contained) {
       return (_scaleForContained(outerSize, childSize) *
-              (_maxScale as PhotoViewComputedScale) // ignore: avoid_as
+              (_maxScale as JLPhotoViewComputedScale) // ignore: avoid_as
                   .multiplier)
           .clamp(minScale, double.infinity);
     }
-    if (_maxScale == PhotoViewComputedScale.covered) {
+    if (_maxScale == JLPhotoViewComputedScale.covered) {
       return (_scaleForCovering(outerSize, childSize) *
-              (_maxScale as PhotoViewComputedScale) // ignore: avoid_as
+              (_maxScale as JLPhotoViewComputedScale) // ignore: avoid_as
                   .multiplier)
           .clamp(minScale, double.infinity);
     }
@@ -76,15 +76,15 @@ class ScaleBoundaries {
   }
 
   double get initialScale {
-    assert(_initialScale is double || _initialScale is PhotoViewComputedScale);
-    if (_initialScale == PhotoViewComputedScale.contained) {
+    assert(_initialScale is double || _initialScale is JLPhotoViewComputedScale);
+    if (_initialScale == JLPhotoViewComputedScale.contained) {
       return _scaleForContained(outerSize, childSize) *
-          (_initialScale as PhotoViewComputedScale) // ignore: avoid_as
+          (_initialScale as JLPhotoViewComputedScale) // ignore: avoid_as
               .multiplier;
     }
-    if (_initialScale == PhotoViewComputedScale.covered) {
+    if (_initialScale == JLPhotoViewComputedScale.covered) {
       return _scaleForCovering(outerSize, childSize) *
-          (_initialScale as PhotoViewComputedScale) // ignore: avoid_as
+          (_initialScale as JLPhotoViewComputedScale) // ignore: avoid_as
               .multiplier;
     }
     return _initialScale.clamp(minScale, maxScale);
