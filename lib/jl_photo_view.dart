@@ -508,7 +508,7 @@ class _JLPhotoViewState extends State<JLPhotoView>
           ) {
         final computedOuterSize = widget.customSize ?? constraints.biggest;
         final backgroundDecoration = widget.backgroundDecoration ??
-            const BoxDecoration(color: Colors.black);
+            const BoxDecoration(color: Colors.white);
 
         return widget._isCustomChild
             ? CustomChildWrapper(

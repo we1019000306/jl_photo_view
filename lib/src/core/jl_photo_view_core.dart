@@ -365,7 +365,7 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
               onTapDown: widget.onTapDown != null
                   ? (details) => widget.onTapDown!(context, details, value)
                   : null,
-              onLongPress: onLongPress,
+              //onLongPress: onLongPress,
             );
           } else {
             return Container();
