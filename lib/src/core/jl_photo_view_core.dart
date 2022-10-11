@@ -187,6 +187,7 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
         position: _position * scaleComebackRatio,
         scale: maxScale,
       );
+      print('!!!!!!!!!!!!!!!!!!!!');
       animatePosition(_position, clampedPosition);
       return;
     }
