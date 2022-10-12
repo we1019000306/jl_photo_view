@@ -15,7 +15,8 @@ import 'package:jl_photo_view/src/controller/jl_photo_view_scalestate_controller
 import 'package:jl_photo_view/src/core/jl_photo_view_gesture_detector.dart';
 import 'package:jl_photo_view/src/core/jl_photo_view_hit_corners.dart';
 import 'package:jl_photo_view/src/utils/jl_photo_view_utils.dart';
-
+import 'package:jiji_modelcard_maker/common/jijimodel_photo_view_model.dart';
+import 'package:provider/provider.dart';
 const _defaultDecoration = const BoxDecoration(
   color: const Color.fromRGBO(0, 0, 0, 1.0),
 );
@@ -325,7 +326,13 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
               ..translate(value.position.dx, value.position.dy)
               ..scale(computedScale)
               ..rotateZ(value.rotation);
-
+            //context.read(JiJiModelPhotoViewModel().updatePhotoViewScale(value.rotation, value.position.dx, position.dx, computedScale));
+            var photoViewModel = Provider.of<JiJiModelPhotoViewModel>(context);
+            photoViewModel.updatePhotoViewScale(value.rotation, value.position.dx, value.position.dy, computedScale);
+            print(photoViewModel.photoViewRotation);
+            print(photoViewModel.photoViewScale);
+            print(photoViewModel.deltaDx);
+            print(photoViewModel.deltaDy);
             final Widget customChildLayout = CustomSingleChildLayout(
               delegate: _CenterWithOriginalSizeDelegate(
                 scaleBoundaries.childSize,
@@ -367,6 +374,7 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
                   ? (details) => widget.onTapDown!(context, details, value)
                   : null,
               //onLongPress: onLongPress,
+
             );
           } else {
             return Container();
