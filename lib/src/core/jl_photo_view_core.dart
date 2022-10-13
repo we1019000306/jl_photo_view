@@ -115,6 +115,10 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
   double? _scaleBefore;
   double? _rotationBefore;
 
+  Offset? _nextPosition;
+  double? _scaleAfter;
+  double? _rotationAfter;
+
   late final AnimationController _scaleAnimationController;
   Animation<double>? _scaleAnimation;
 
@@ -177,7 +181,12 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
     final Offset _position = controller.position;
     final double maxScale = scaleBoundaries.maxScale;
     final double minScale = scaleBoundaries.minScale;
-
+    // var photoViewModel = Provider.of<JiJiModelPhotoViewModel>(context);
+    // photoViewModel.updatePhotoViewScale(value.rotation, value.position.dx, value.position.dy, computedScale);
+    // print(photoViewModel.photoViewRotation);
+    // print(photoViewModel.photoViewScale);
+    // print(photoViewModel.deltaDx);
+    // print(photoViewModel.deltaDy);
     widget.onScaleEnd?.call(context, details, controller.value);
 
     //animate back to maxScale if gesture exceeded the maxScale specified
@@ -188,8 +197,9 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
         position: _position * scaleComebackRatio,
         scale: maxScale,
       );
-      print('!!!!!!!!!!!!!!!!!!!!');
+
       animatePosition(_position, clampedPosition);
+
       return;
     }
 
@@ -276,12 +286,38 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
       ..addStatusListener(onAnimationStatus);
     _positionAnimationController = AnimationController(vsync: this)
       ..addListener(handlePositionAnimate);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      //需要创建的小组件
+      print('!!!!!!!!!!!!!!!--------WidgetsBinding');
+
+      print('_scaleAfter${_scaleAfter}');
+      print('_nextPosition${_nextPosition}');
+      print('_rotationAfter${_rotationAfter}');
+
+      print('!!!!!!!!!!!!!!!--------WidgetsBinding');
+
+      var photoViewModel = Provider.of<JiJiModelPhotoViewModel>(context, listen:false);
+      print(photoViewModel);
+      //photoViewModel.updatePhotoViewScale(controller.rotation, controller.position.dx, controller.position.dy, controller.scale!);
+      //print('qqqqqqqqqqqqqqqqqqqqqq${photoViewModel.photoViewRotation}');
+      // AsyncSnapshot<JLPhotoViewControllerValue> snapshot;
+      // if (snapshot.hasData) {
+      //   JLPhotoViewControllerValue value = snapshot.data!;
+      //   print(value.scale);
+      //   print(value.position.dx);
+      //   print(value.position.dy);
+      //   print(value.rotation);
+      // }
+
+      //controller.position = Offset(1000, 1000);
+    });
   }
 
   void animateOnScaleStateUpdate(double prevScale, double nextScale) {
     animateScale(prevScale, nextScale);
     animatePosition(controller.position, Offset.zero);
     animateRotation(controller.rotation, 0.0);
+
   }
 
   @override
@@ -326,13 +362,14 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
               ..translate(value.position.dx, value.position.dy)
               ..scale(computedScale)
               ..rotateZ(value.rotation);
+            print('-------jl_photo_view_core--${context.widget.hashCode}----position.dx-----${value.position.dx}');
+            print('-------jl_photo_view_core--${context.widget.hashCode}----position.dy-----${value.position.dy}');
+            _nextPosition = Offset(value.position.dx, value.position.dy);
+            _scaleAfter = computedScale;
+            _rotationAfter = value.rotation;
+
             //context.read(JiJiModelPhotoViewModel().updatePhotoViewScale(value.rotation, value.position.dx, position.dx, computedScale));
-            var photoViewModel = Provider.of<JiJiModelPhotoViewModel>(context);
-            photoViewModel.updatePhotoViewScale(value.rotation, value.position.dx, value.position.dy, computedScale);
-            print(photoViewModel.photoViewRotation);
-            print(photoViewModel.photoViewScale);
-            print(photoViewModel.deltaDx);
-            print(photoViewModel.deltaDy);
+
             final Widget customChildLayout = CustomSingleChildLayout(
               delegate: _CenterWithOriginalSizeDelegate(
                 scaleBoundaries.childSize,
