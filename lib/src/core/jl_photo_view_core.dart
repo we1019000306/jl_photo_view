@@ -286,6 +286,9 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
       ..addStatusListener(onAnimationStatus);
     _positionAnimationController = AnimationController(vsync: this)
       ..addListener(handlePositionAnimate);
+    // var photoViewModel = Provider.of<JiJiModelPhotoViewModel>(context, listen:false);
+    // photoViewModel.handlerWithJLPhotoViewKey();
+    // print(photoViewModel.modelKey);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       //需要创建的小组件
       print('!!!!!!!!!!!!!!!--------WidgetsBinding');
@@ -296,8 +299,7 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
 
       print('!!!!!!!!!!!!!!!--------WidgetsBinding');
 
-      var photoViewModel = Provider.of<JiJiModelPhotoViewModel>(context, listen:false);
-      print(photoViewModel);
+
       //photoViewModel.updatePhotoViewScale(controller.rotation, controller.position.dx, controller.position.dy, controller.scale!);
       //print('qqqqqqqqqqqqqqqqqqqqqq${photoViewModel.photoViewRotation}');
       // AsyncSnapshot<JLPhotoViewControllerValue> snapshot;
@@ -444,6 +446,7 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
           );
   }
 }
+
 
 class _CenterWithOriginalSizeDelegate extends SingleChildLayoutDelegate {
   const _CenterWithOriginalSizeDelegate(

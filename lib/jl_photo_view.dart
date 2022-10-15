@@ -10,6 +10,8 @@ import 'src/jl_photo_view_computed_scale.dart';
 import 'src/jl_photo_view_scale_state.dart';
 import 'src/jl_photo_view_wrappers.dart';
 import 'src/utils/jl_photo_view_hero_attributes.dart';
+import 'package:jiji_modelcard_maker/common/jijimodel_photo_view_model.dart';
+import 'package:provider/provider.dart';
 
 export 'src/controller/jl_photo_view_controller.dart';
 export 'src/controller/jl_photo_view_scalestate_controller.dart';
@@ -18,6 +20,7 @@ export 'src/core/jl_photo_view_gesture_detector.dart'
 export 'src/jl_photo_view_computed_scale.dart';
 export 'src/jl_photo_view_scale_state.dart';
 export 'src/utils/jl_photo_view_hero_attributes.dart';
+
 
 /// A [StatefulWidget] that contains all the photo view rendering elements.
 ///
@@ -245,7 +248,7 @@ class JLPhotoView extends StatefulWidget {
     required this.imageProvider,
     this.loadingBuilder,
     this.backgroundDecoration,
-    this.wantKeepAlive = false,
+    this.wantKeepAlive = true,
     this.gaplessPlayback = false,
     this.heroAttributes,
     this.scaleStateChangedCallback,
@@ -283,7 +286,7 @@ class JLPhotoView extends StatefulWidget {
     required this.child,
     this.childSize,
     this.backgroundDecoration,
-    this.wantKeepAlive = false,
+    this.wantKeepAlive = true,
     this.heroAttributes,
     this.scaleStateChangedCallback,
     this.enableRotation = false,
@@ -437,7 +440,6 @@ class _JLPhotoViewState extends State<JLPhotoView>
   @override
   void initState() {
     super.initState();
-
     if (widget.controller == null) {
       _controlledController = true;
       _controller = JLPhotoViewController();
