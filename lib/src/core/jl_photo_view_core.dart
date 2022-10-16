@@ -8,7 +8,8 @@ import 'package:jl_photo_view/jl_photo_view.dart'
         JLPhotoViewImageTapUpCallback,
         JLPhotoViewImageLongPressCallback,
         JLPhotoViewImageScaleEndCallback,
-        ScaleStateCycle;
+        ScaleStateCycle,
+        JLPVUpdateImageViewCallback;
 import 'package:jl_photo_view/src/controller/jl_photo_view_controller.dart';
 import 'package:jl_photo_view/src/controller/jl_photo_view_controller_delegate.dart';
 import 'package:jl_photo_view/src/controller/jl_photo_view_scalestate_controller.dart';
@@ -110,7 +111,8 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
     with
         TickerProviderStateMixin,
         JLPhotoViewControllerDelegate,
-        HitCornersDetector {
+        HitCornersDetector,
+        AutomaticKeepAliveClientMixin{
   Offset? _normalizedPosition;
   double? _scaleBefore;
   double? _rotationBefore;
@@ -293,14 +295,18 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
       //需要创建的小组件
       print('!!!!!!!!!!!!!!!--------WidgetsBinding');
 
-      print('_scaleAfter${_scaleAfter}');
-      print('_nextPosition${_nextPosition}');
-      print('_rotationAfter${_rotationAfter}');
+      print('_scaleAfter${controller.scale}');
+      print('_nextPosition${controller.position}');
+      print('_rotationAfter${controller.rotation}');
 
+
+
+      var photoViewModel = Provider.of<JiJiModelPhotoViewModel>(context, listen:false);
+      photoViewModel.updatePhotoViewScale(controller.rotation, controller.position.dx, controller.position.dy, controller.scale!);
+      print('rotation${photoViewModel.photoViewRotation}');
+      print('position${photoViewModel.deltaDx},${photoViewModel.deltaDy}');
+      print('scale${photoViewModel.photoViewScale}');
       print('!!!!!!!!!!!!!!!--------WidgetsBinding');
-
-
-      //photoViewModel.updatePhotoViewScale(controller.rotation, controller.position.dx, controller.position.dy, controller.scale!);
       //print('qqqqqqqqqqqqqqqqqqqqqq${photoViewModel.photoViewRotation}');
       // AsyncSnapshot<JLPhotoViewControllerValue> snapshot;
       // if (snapshot.hasData) {
@@ -330,6 +336,10 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
     _rotationAnimationController.dispose();
     super.dispose();
   }
+
+  //方法返回true
+  @override
+  bool get wantKeepAlive => true;
 
   void onTapUp(TapUpDetails details) {
     widget.onTapUp?.call(context, details, controller.value);
@@ -366,6 +376,8 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
               ..rotateZ(value.rotation);
             print('-------jl_photo_view_core--${context.widget.hashCode}----position.dx-----${value.position.dx}');
             print('-------jl_photo_view_core--${context.widget.hashCode}----position.dy-----${value.position.dy}');
+            print('-------jl_photo_view_core--${context.widget.hashCode}----rotationAfter---${value.rotation}');
+            print('-------jl_photo_view_core--${context.widget.hashCode}----scaleAfter------${computedScale}');
             _nextPosition = Offset(value.position.dx, value.position.dy);
             _scaleAfter = computedScale;
             _rotationAfter = value.rotation;

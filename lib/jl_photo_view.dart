@@ -271,6 +271,10 @@ class JLPhotoView extends StatefulWidget {
     this.disableGestures,
     this.errorBuilder,
     this.enablePanAlways,
+    // this.rotation,
+    // this.position,
+    // this.scale
+    this.jlpvUpdateImageViewCallback,
   })  : child = null,
         childSize = null,
         super(key: key);
@@ -307,6 +311,10 @@ class JLPhotoView extends StatefulWidget {
     this.filterQuality,
     this.disableGestures,
     this.enablePanAlways,
+    // this.rotation,
+    // this.position,
+    // this.scale
+    this.jlpvUpdateImageViewCallback
   })  : errorBuilder = null,
         imageProvider = null,
         gaplessPlayback = false,
@@ -417,6 +425,12 @@ class JLPhotoView extends StatefulWidget {
   /// Useful when you want to drag a widget without restrictions.
   final bool? enablePanAlways;
 
+  // final double? rotation;
+  //
+  // final Offset? position;
+  //
+  // final double? scale;
+  final JLPVUpdateImageViewCallback? jlpvUpdateImageViewCallback;
   bool get _isCustomChild {
     return child != null;
   }
@@ -570,7 +584,7 @@ class _JLPhotoViewState extends State<JLPhotoView>
   }
 
   @override
-  bool get wantKeepAlive => widget.wantKeepAlive;
+  bool get wantKeepAlive => true;
 }
 
 /// The default [ScaleStateCycle]
@@ -589,6 +603,12 @@ JLPhotoViewScaleState defaultScaleStateCycle(JLPhotoViewScaleState actual) {
       return JLPhotoViewScaleState.initial;
   }
 }
+
+typedef JLPVUpdateImageViewCallback =  Function(
+    JLPhotoViewControllerValue  offset,
+    JLPhotoViewControllerValue  positon,
+    JLPhotoViewControllerValue  rotation
+    );
 
 /// A type definition for a [Function] that receives the actual [JLPhotoViewScaleState] and returns the next one
 /// It is used internally to walk in the "doubletap gesture cycle".
