@@ -182,6 +182,7 @@ class _ImageWrapperState extends State<ImageWrapper> {
     );
 
     return JLPhotoViewCore(
+      key: widget.key,
       imageProvider: widget.imageProvider,
       backgroundDecoration: widget.backgroundDecoration,
       gaplessPlayback: widget.gaplessPlayback,

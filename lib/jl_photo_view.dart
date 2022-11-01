@@ -10,7 +10,7 @@ import 'src/jl_photo_view_computed_scale.dart';
 import 'src/jl_photo_view_scale_state.dart';
 import 'src/jl_photo_view_wrappers.dart';
 import 'src/utils/jl_photo_view_hero_attributes.dart';
-import 'package:jiji_modelcard_maker/common/jijimodel_photo_view_model.dart';
+import 'package:jiji_modelcard_maker/common/jijimodel_photo_view_album.dart';
 import 'package:provider/provider.dart';
 
 export 'src/controller/jl_photo_view_controller.dart';
@@ -252,7 +252,7 @@ class JLPhotoView extends StatefulWidget {
     this.gaplessPlayback = false,
     this.heroAttributes,
     this.scaleStateChangedCallback,
-    this.enableRotation = false,
+    this.enableRotation = true,
     this.controller,
     this.scaleStateController,
     this.maxScale,

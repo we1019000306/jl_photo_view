@@ -16,7 +16,8 @@ import 'package:jl_photo_view/src/controller/jl_photo_view_scalestate_controller
 import 'package:jl_photo_view/src/core/jl_photo_view_gesture_detector.dart';
 import 'package:jl_photo_view/src/core/jl_photo_view_hit_corners.dart';
 import 'package:jl_photo_view/src/utils/jl_photo_view_utils.dart';
-import 'package:jiji_modelcard_maker/common/jijimodel_photo_view_model.dart';
+import 'package:jiji_modelcard_maker/common/jijimodel_photo_view_album.dart';
+import 'package:jiji_modelcard_maker/common/jijimodel_photo_view_item.dart';
 import 'package:provider/provider.dart';
 const _defaultDecoration = const BoxDecoration(
   color: const Color.fromRGBO(0, 0, 0, 1.0),
@@ -73,7 +74,6 @@ class JLPhotoViewCore extends StatefulWidget {
   })  : imageProvider = null,
         gaplessPlayback = false,
         super(key: key);
-
   final Decoration? backgroundDecoration;
   final ImageProvider? imageProvider;
   final bool? gaplessPlayback;
@@ -136,15 +136,21 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
   late ScaleBoundaries cachedScaleBoundaries = widget.scaleBoundaries;
 
   void handleScaleAnimation() {
-    scale = _scaleAnimation!.value;
+    setState(() {
+      scale = _scaleAnimation!.value;
+    });
   }
 
   void handlePositionAnimate() {
-    controller.position = _positionAnimation!.value;
+    setState(() {
+      controller.position = _positionAnimation!.value;
+    });
   }
 
   void handleRotationAnimation() {
-    controller.rotation = _rotationAnimation!.value;
+    setState(() {
+      controller.rotation = _rotationAnimation!.value;
+    });
   }
 
   void onLongPress() {
@@ -189,6 +195,13 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
     // print(photoViewModel.photoViewScale);
     // print(photoViewModel.deltaDx);
     // print(photoViewModel.deltaDy);
+    // var photoViewAlbum = Provider.of<JiJiModelPhotoViewAlbum>(context, listen:false);
+    // photoViewAlbum.updatePhotoViewItemwithKey(this, Key(this.hashCode));
+    // photoViewAlbum.currentScale = controller.scale!;
+    // photoViewAlbum.currentRotation = controller.rotation!;
+    // print('----ImageStream build------controller.scale${photoViewAlbum.currentScale}');
+    // print('----ImageStream build------controller.rotation${photoViewAlbum.currentRotation}');
+
     widget.onScaleEnd?.call(context, details, controller.value);
 
     //animate back to maxScale if gesture exceeded the maxScale specified
@@ -201,8 +214,7 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
       );
 
       animatePosition(_position, clampedPosition);
-
-      return;
+     return;
     }
 
     //animate back to minScale if gesture fell smaller than the minScale specified
@@ -288,36 +300,23 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
       ..addStatusListener(onAnimationStatus);
     _positionAnimationController = AnimationController(vsync: this)
       ..addListener(handlePositionAnimate);
-    // var photoViewModel = Provider.of<JiJiModelPhotoViewModel>(context, listen:false);
-    // photoViewModel.handlerWithJLPhotoViewKey();
-    // print(photoViewModel.modelKey);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       //需要创建的小组件
       print('!!!!!!!!!!!!!!!--------WidgetsBinding');
-
+      // JiJiModelPhotoViewItem item = JiJiModelPhotoViewItem();
+      // item.key = Key('${widget.key}');
+      // var photoViewModel = Provider.of<JiJiModelPhotoViewAlbum>(context);
+      // var photoViewItem = JiJiModelPhotoViewItem();
+      // photoViewItem.key = widget.key!;
+      // photoViewModel.addPhotoViewItemWithKey(photoViewItem,Key('${widget.key}'));
       print('_scaleAfter${controller.scale}');
       print('_nextPosition${controller.position}');
       print('_rotationAfter${controller.rotation}');
-
-
-
-      var photoViewModel = Provider.of<JiJiModelPhotoViewModel>(context, listen:false);
-      photoViewModel.updatePhotoViewScale(controller.rotation, controller.position.dx, controller.position.dy, controller.scale!);
-      print('rotation${photoViewModel.photoViewRotation}');
-      print('position${photoViewModel.deltaDx},${photoViewModel.deltaDy}');
-      print('scale${photoViewModel.photoViewScale}');
-      print('!!!!!!!!!!!!!!!--------WidgetsBinding');
-      //print('qqqqqqqqqqqqqqqqqqqqqq${photoViewModel.photoViewRotation}');
-      // AsyncSnapshot<JLPhotoViewControllerValue> snapshot;
-      // if (snapshot.hasData) {
-      //   JLPhotoViewControllerValue value = snapshot.data!;
-      //   print(value.scale);
-      //   print(value.position.dx);
-      //   print(value.position.dy);
-      //   print(value.rotation);
-      // }
-
-      //controller.position = Offset(1000, 1000);
+      // var photoViewAlbum = Provider.of<JiJiModelPhotoViewAlbum>(context, listen:false);
+      // photoViewAlbum.currentScale = controller.scale!;
+      // print(photoViewAlbum.currentScale);
+      // print('!!!!!!!!!!!!!!!--------WidgetsBinding');
     });
   }
 
@@ -330,12 +329,38 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
 
   @override
   void dispose() {
+    print('!!!!!!!!!!!!!!!--------dispose start');
+    // var photoViewAlbum = Provider.of<JiJiModelPhotoViewAlbum>(context, listen:false);
+    // var currentPhotoViewItem = photoViewAlbum.currentItem(Key('${this.hashCode}'));
+    // currentPhotoViewItem.currentRotation = controller.rotation;
+    // currentPhotoViewItem.currentScale = controller.scale;
+    // currentPhotoViewItem.currentPosition = controller.position;
+    // print(currentPhotoViewItem.currentRotation);
+    // print(currentPhotoViewItem.currentScale);
+    // print(currentPhotoViewItem.currentPosition);
+
+    print('controller.scale${controller.scale}');
+    print('controller.position${controller.position}');
+    print('controller.rotation${controller.rotation}');
+    print('!!!!!!!!!!!!!!!--------dispose end');
+
     _scaleAnimationController.removeStatusListener(onAnimationStatus);
     _scaleAnimationController.dispose();
     _positionAnimationController.dispose();
     _rotationAnimationController.dispose();
     super.dispose();
   }
+  @override
+  // void didChangeDependencies() {
+  //   var photoViewAlbum = Provider.of<JiJiModelPhotoViewAlbum>(context);
+  //   var currentPhotoViewItem = photoViewAlbum.currentItem(Key('${widget.key}'));
+  //   if (this == currentPhotoViewItem) {
+  //     currentPhotoViewItem?.currentPosition = this.controller.position!;
+  //     currentPhotoViewItem?.currentScale = this.controller.scale!;
+  //     currentPhotoViewItem?.currentRotation = this.controller.rotation!;
+  //   } else return;
+  // }
+  //
 
   //方法返回true
   @override
@@ -374,17 +399,16 @@ class JLPhotoViewCoreState extends State<JLPhotoViewCore>
               ..translate(value.position.dx, value.position.dy)
               ..scale(computedScale)
               ..rotateZ(value.rotation);
-            print('-------jl_photo_view_core--${context.widget.hashCode}----position.dx-----${value.position.dx}');
-            print('-------jl_photo_view_core--${context.widget.hashCode}----position.dy-----${value.position.dy}');
-            print('-------jl_photo_view_core--${context.widget.hashCode}----rotationAfter---${value.rotation}');
-            print('-------jl_photo_view_core--${context.widget.hashCode}----scaleAfter------${computedScale}');
-            _nextPosition = Offset(value.position.dx, value.position.dy);
-            _scaleAfter = computedScale;
-            _rotationAfter = value.rotation;
+            // print('-------jl_photo_view_core--${context.widget.hashCode}----position.dx-----${value.position.dx}');
+            // print('-------jl_photo_view_core--${context.widget.hashCode}----position.dy-----${value.position.dy}');
+            // print('-------jl_photo_view_core--${context.widget.hashCode}----rotationAfter---${value.rotation}');
+            // print('-------jl_photo_view_core--${context.widget.hashCode}----scaleAfter------${computedScale}');
+            // _nextPosition = Offset(value.position.dx, value.position.dy);
+            // _scaleAfter = computedScale;
+            // _rotationAfter = value.rotation;
 
-            //context.read(JiJiModelPhotoViewModel().updatePhotoViewScale(value.rotation, value.position.dx, position.dx, computedScale));
-
-            final Widget customChildLayout = CustomSingleChildLayout(
+            //print(photoViewAlbum.currentScale);
+          final Widget customChildLayout = CustomSingleChildLayout(
               delegate: _CenterWithOriginalSizeDelegate(
                 scaleBoundaries.childSize,
                 basePosition,
